@@ -1,0 +1,42 @@
+ui:
+  header: "My Uptime Monitoring Dashboard"
+  logo: "https://i.imgur.com/4AiXzf8.png"  # Replace with a direct image link
+
+endpoints:
+  - name: Example Website
+    url: "https://example.com"
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: slack
+        enabled: true
+        url: "https://hooks.slack.com/services/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"
+        failure-threshold: 2
+        success-threshold: 2
+
+  - name: GitHub
+    url: "https://github.com"
+    interval: 30s  # Reduced interval
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"  # New response time condition
+    alerts:
+      - type: slack
+        enabled: true
+        url: "https://hooks.slack.com/services/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"
+        failure-threshold: 2
+        success-threshold: 2
+
+  - name: Nonexistent
+    url: "https://thiswebsitedoesnotexist.com"
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: slack
+        enabled: true
+        url: "https://hooks.slack.com/services/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"
+        failure-threshold: 2
+        success-threshold: 2
+

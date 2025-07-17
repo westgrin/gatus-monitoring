@@ -1,0 +1,24 @@
+name: Deploy Gatus Monitoring
+on:
+  push:
+    branches: [ main ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Docker
+      run: |
+        sudo apt update
+        sudo apt install docker.io -y
+        sudo systemctl start docker
+    - name: Deploy Gatus
+      run: |
+        docker pull twinproduction/gatus:v5.10.0
+        mkdir -p config
+        cp config.yaml config/
+        docker run -d -p 8080:8080 --name gatus -v $(pwd)/config:/config twinproduction/gatus:v5.10.0
+    - name: Verify Gatus
+      run: |
+        sleep 10
+        curl http://localhost:8080
